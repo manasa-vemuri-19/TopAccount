@@ -1,0 +1,123 @@
+﻿@model Project_ContractWise_Summary.Models.Consolidated
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Select2/JScriptSelect2.js"></script>
+<link href="~/Select2/select2.css" rel="stylesheet" />
+
+<script>
+    var _tmr;
+    $(function () {
+        initdropdown();
+
+        $("#btnGenerate").click(function () {
+
+            $('#cookieValue').val(Date.now().toString());
+
+            $("#searchimg").css("display", "block");
+
+
+            _tmr = window.setInterval(function () {
+                var _str = 'dlc=' + $('#cookieValue').val();
+                if (document.cookie.indexOf(_str) !== -1) {
+                    // hide animation
+                    $("#searchimg").css("display", "none");
+                }
+            }, 100);
+
+        })
+
+        var val = '@ViewBag.Message';
+        if (val != '') {
+            alert(val)
+        }
+
+
+    })
+
+    function initdropdown() {
+        $("#ddlServiceLine,#ddlFinYear,#ddlFrom,#ddlTo").select2({
+            selectOnClose: true,
+            minimumResultsForSearch: -1
+        })
+
+
+
+
+        //$("#ddlDuration").select2({
+        //    selectOnClose: true,
+        //    minimumResultsForSearch: -1
+
+        //})
+        //.on("change", function (e) {
+        //        var Duration = $(this).children("option:selected").val();
+        //        $('#ddlPeriod').empty();
+
+        //        if (Duration == "QTD" || Duration == "HTD") {
+        //            $('#ddlPeriod').prop('disabled', false);
+
+        //            if (Duration == "QTD") {
+        //                $('#ddlPeriod').append('<option  value="Q1">Q1</option>');
+        //                $('#ddlPeriod').append('<option value="Q2">Q2</option>');
+        //                $('#ddlPeriod').append('<option value="Q3">Q3</option>');
+        //                $('#ddlPeriod').append('<option value="Q4">Q4</option>');
+        //                $('#ddlPeriod').val("Q1").trigger('change');
+        //            }
+        //            else if (Duration == "HTD") {
+        //                $('#ddlPeriod').append('<option value="H1">H1</option>');
+        //                $('#ddlPeriod').append('<option value="H2">H2</option>');
+        //                $('#ddlPeriod').val("H1").trigger('change');
+        //            }
+        //        }
+        //        else {
+        //            $('#ddlPeriod').append('<option  value="NA">NA</option>');
+        //            $('#ddlPeriod').val("NA").trigger('change');
+        //            $('#ddlPeriod').prop('disabled', true);
+        //        }
+        //    });
+
+        //$('#ddlFrom').val("202004").trigger('change');
+        //$('#ddlTo').val("202004").trigger('change');
+    }
+
+</script>
+
+<style>
+    .select2-container--default .select2-results > .select2-results__options {
+        max-height: 100px !important;
+    }
+
+    body {
+        padding-top: 10px !important;
+        padding-bottom: 20px;
+    }
+</style>
+
+<div style="height:250px;width:900px;margin:0px auto;">
+    @using (Html.BeginForm("Index", "Top"))
+    {
+
+        <div style="width:480px;margin:0px auto;">
+
+
+            <div style="float:left;margin-top:3px;margin-right:10px"><span style="font-family:Calibri">ServiceLine:</span></div>
+            <div style="float:left;margin-right:10px">
+                @Html.DropDownListFor(m => m.item2.SLId, Model.item2.SL, new { @name = "SL", @Id = "ddlServiceLine", style = "width: 100px;" })
+            </div>
+
+            <div style="float:left;padding-top:40px;padding-left:200px">
+                <div style="float:left;"><button name="submit" type="submit" id="btnGenerate" value="Generate" class="btn btn-success">Generate</button></div>
+                @Html.Hidden("cookieValue")
+                <div id="kk" style="float:left;margin-left:20px;"><img id="searchimg" src="@Url.Content("~/Images/load.gif")" alt="Image" width="30" height="30" style="display:none" /></div>
+            </div>
+
+
+          
+        </div>
+
+    }
+</div>
+
